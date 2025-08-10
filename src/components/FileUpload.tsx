@@ -101,23 +101,23 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
 
   if (isAnalyzing) {
     return (
-      <div className="border-2 border-blue-300 border-dashed rounded-xl p-12 text-center bg-blue-50">
-        <Loader2 className="h-16 w-16 text-blue-600 mx-auto mb-4 animate-spin" />
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+      <div className="border-2 border-blue-300 border-dashed rounded-xl p-6 sm:p-8 lg:p-12 text-center bg-blue-50">
+        <Loader2 className="h-12 w-12 sm:h-16 sm:w-16 text-blue-600 mx-auto mb-3 sm:mb-4 animate-spin" />
+        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
           {t.stepAnalyzing}
         </h3>
-        <p className="text-gray-600 mb-4">{currentStep}</p>
+        <p className="text-sm sm:text-base text-gray-600 mb-4 px-2">{currentStep}</p>
         
         {/* Progress Bar */}
-        <div className="w-full bg-gray-200 rounded-full h-3 mb-4">
+        <div className="w-full bg-gray-200 rounded-full h-2 sm:h-3 mb-4">
           <div 
-            className="bg-blue-600 h-3 rounded-full transition-all duration-300"
+            className="bg-blue-600 h-2 sm:h-3 rounded-full transition-all duration-300"
             style={{ width: `${uploadProgress}%` }}
           ></div>
         </div>
         
-        <div className="text-sm text-gray-500">
-          {uploadProgress}% abgeschlossen
+        <div className="text-xs sm:text-sm text-gray-500">
+          {uploadProgress}% {language === 'de' ? 'abgeschlossen' : 'completed'}
         </div>
       </div>
     );
@@ -125,19 +125,19 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
 
   if (error) {
     return (
-      <div className="border-2 border-red-300 border-dashed rounded-xl p-12 text-center bg-red-50">
-        <AlertCircle className="h-16 w-16 text-red-600 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-red-900 mb-2">
+      <div className="border-2 border-red-300 border-dashed rounded-xl p-6 sm:p-8 lg:p-12 text-center bg-red-50">
+        <AlertCircle className="h-12 w-12 sm:h-16 sm:w-16 text-red-600 mx-auto mb-3 sm:mb-4" />
+        <h3 className="text-lg sm:text-xl font-semibold text-red-900 mb-2">
           {t.errorAnalysisFailed}
         </h3>
-        <p className="text-red-700 mb-6">{error}</p>
+        <p className="text-sm sm:text-base text-red-700 mb-4 sm:mb-6 px-2">{error}</p>
         <button 
           onClick={() => {
             setError(null);
             setUploadProgress(0);
             setCurrentStep('');
           }}
-          className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors"
+          className="bg-red-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm sm:text-base"
         >
           {t.newAnalysis}
         </button>
@@ -148,7 +148,7 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
   return (
     <div
       {...getRootProps()}
-      className={`border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all duration-200 ${
+      className={`border-2 border-dashed rounded-xl p-6 sm:p-8 lg:p-12 text-center cursor-pointer transition-all duration-200 ${
         isDragActive 
           ? 'border-blue-500 bg-blue-50' 
           : 'border-gray-300 hover:border-blue-400 hover:bg-gray-50'
@@ -159,32 +159,32 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
       <div className="space-y-4">
         {isDragActive ? (
           <>
-            <Upload className="h-16 w-16 text-blue-600 mx-auto animate-bounce" />
-            <div>
-              <h3 className="text-xl font-semibold text-blue-900">
+            <Upload className="h-12 w-12 sm:h-16 sm:w-16 text-blue-600 mx-auto animate-bounce" />
+            <div className="px-2">
+              <h3 className="text-lg sm:text-xl font-semibold text-blue-900">
                 {t.uploadDrop}
               </h3>
-              <p className="text-blue-700">
+              <p className="text-sm sm:text-base text-blue-700">
                 {t.uploadTitle}
               </p>
             </div>
           </>
         ) : (
           <>
-            <FileText className="h-16 w-16 text-gray-400 mx-auto" />
-            <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <FileText className="h-12 w-12 sm:h-16 sm:w-16 text-gray-400 mx-auto" />
+            <div className="px-2">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
                 {t.uploadTitle}
               </h3>
-              <p className="text-gray-600 mb-4">
+              <p className="text-sm sm:text-base text-gray-600 mb-4">
                 {t.uploadDrop}
               </p>
-              <div className="text-sm text-gray-500">
+              <div className="text-xs sm:text-sm text-gray-500 mb-4">
                 {t.uploadFormats} • {t.gdprCompliant}
               </div>
             </div>
             
-            <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+            <button className="bg-blue-600 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm sm:text-base">
               {t.uploadButton}
             </button>
           </>

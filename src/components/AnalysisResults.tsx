@@ -63,59 +63,59 @@ export default function AnalysisResults({ result, onNewAnalysis }: AnalysisResul
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8 px-2 sm:px-0">
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">Analyse Ihrer Nebenkosten</h2>
-            <div className="flex items-center space-x-4 text-sm text-gray-600 mt-2">
+      <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-4 sm:mb-6 space-y-3 sm:space-y-0">
+          <div className="flex-1">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{t.resultsTitle}</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 text-xs sm:text-sm text-gray-600 mt-2 space-y-1 sm:space-y-0">
               <div className="flex items-center space-x-1">
-                <MapPin className="h-4 w-4" />
+                <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span>{result.cityInfo.city}, {result.cityInfo.state}</span>
               </div>
               <div className="flex items-center space-x-1">
-                <Calendar className="h-4 w-4" />
-                <span>Daten vom {result.energyData.rates.timestamp.split('T')[0]}</span>
+                <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span>Data: {result.energyData.rates.timestamp.split('T')[0]}</span>
               </div>
               <div className="flex items-center space-x-1">
-                <Home className="h-4 w-4" />
-                <span>Versorger: {result.cityInfo.utilityProvider}</span>
+                <Home className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="truncate">{result.cityInfo.utilityProvider}</span>
               </div>
             </div>
           </div>
-          <div className="text-right">
-            <div className="text-sm text-gray-600">{t.dataQuality}</div>
-            <div className="text-2xl font-bold text-green-600">{result.confidence}%</div>
+          <div className="text-left sm:text-right flex-shrink-0">
+            <div className="text-xs sm:text-sm text-gray-600">{t.dataQuality}</div>
+            <div className="text-xl sm:text-2xl font-bold text-green-600">{result.confidence}%</div>
           </div>
         </div>
 
         {/* Quick Summary */}
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <div className="text-sm text-blue-600 font-medium">Gesamte Nebenkosten</div>
-            <div className="text-2xl font-bold text-blue-900">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="bg-blue-50 p-3 sm:p-4 rounded-lg">
+            <div className="text-xs sm:text-sm text-blue-600 font-medium">Total Utility Costs</div>
+            <div className="text-lg sm:text-2xl font-bold text-blue-900">
               €{result.userCosts.total.toFixed(2)}/m²
             </div>
-            <div className="text-sm text-blue-700">
-              vs. €{result.regionalAverages.total.toFixed(2)} Durchschnitt
+            <div className="text-xs sm:text-sm text-blue-700">
+              vs. €{result.regionalAverages.total.toFixed(2)} avg
             </div>
           </div>
           
-          <div className={`p-4 rounded-lg ${
+          <div className={`p-3 sm:p-4 rounded-lg ${
             result.savings.potential > 0 ? 'bg-red-50' : 'bg-green-50'
           }`}>
-            <div className={`text-sm font-medium ${
+            <div className={`text-xs sm:text-sm font-medium ${
               result.savings.potential > 0 ? 'text-red-600' : 'text-green-600'
             }`}>
-              Einsparpotenzial
+              {t.potentialSavings}
             </div>
-            <div className={`text-2xl font-bold ${
+            <div className={`text-lg sm:text-2xl font-bold ${
               result.savings.potential > 0 ? 'text-red-900' : 'text-green-900'
             }`}>
-              €{result.savings.potential.toFixed(0)}/Jahr
+              €{result.savings.potential.toFixed(0)}/year
             </div>
-            <div className={`text-sm ${
+            <div className={`text-xs sm:text-sm ${
               result.savings.potential > 0 ? 'text-red-700' : 'text-green-700'
             }`}>
               {result.savings.potential > 0 ? t.potentialSavings : t.fairCosts}

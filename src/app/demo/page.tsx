@@ -6,6 +6,7 @@ import { lookupPLZ } from '@/lib/german-cities';
 import { energyService } from '@/lib/energy-apis';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import CitySelector from '@/components/CitySelector';
 
 export default function DemoPage() {
   const [selectedPLZ, setSelectedPLZ] = useState('10115');
@@ -64,68 +65,30 @@ export default function DemoPage() {
         </div>
       </header>
 
-      <div className="max-w-6xl mx-auto p-8">
+      <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8">
         {/* Hero Section */}
-        <div className="text-center mb-8">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+        <div className="text-center mb-6 sm:mb-8 px-2">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 leading-tight">
             {t.demoTitle}
           </h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600">
             {t.demoSubtitle}
           </p>
         </div>
 
         {/* City Selector */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">{t.selectCity}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-            {demoCities.map((city) => (
-              <button
-                key={city.plz}
-                onClick={() => setSelectedPLZ(city.plz)}
-                className={`p-3 rounded-lg text-sm font-medium transition-colors ${
-                  selectedPLZ === city.plz
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {city.name}
-                <div className="text-xs opacity-75">{city.plz}</div>
-              </button>
-            ))}
-          </div>
-          
-          {/* Custom PLZ Input */}
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <div className="flex items-center space-x-3">
-              <input
-                type="text"
-                placeholder="Eigene PLZ eingeben (z.B. 12345)"
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                maxLength={5}
-                onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, '');
-                  e.target.value = value;
-                  if (value.length === 5) {
-                    setSelectedPLZ(value);
-                  }
-                }}
-              />
-              <button
-                onClick={() => loadCityData(selectedPLZ)}
-                disabled={loading}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-              >
-                Laden
-              </button>
-            </div>
-          </div>
+        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
+          <CitySelector 
+            cities={demoCities}
+            selectedPLZ={selectedPLZ}
+            onSelectPLZ={setSelectedPLZ}
+          />
         </div>
 
         {loading ? (
-          <div className="bg-white rounded-xl shadow-lg p-12 text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">{t.loadingData} {selectedPLZ}...</p>
+          <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 lg:p-12 text-center">
+            <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-sm sm:text-base text-gray-600">{t.loadingData} {selectedPLZ}...</p>
           </div>
         ) : (
           <>

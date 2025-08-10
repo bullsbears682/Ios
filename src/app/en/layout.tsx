@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   title: "German Utility Bill Checker | UtilityCost-Checker for Expats",
@@ -26,6 +26,15 @@ export const metadata: Metadata = {
       'en': '/en'
     }
   }
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: 'cover',
+  themeColor: '#2563eb'
 };
 
 export default function EnglishLayout({
