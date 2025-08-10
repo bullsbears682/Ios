@@ -33,7 +33,7 @@ export default function Home() {
             </div>
             <div className="flex items-center space-x-4">
               <LanguageSwitcher />
-              <span className="text-sm text-gray-600">🇩🇪 Für alle deutschen Städte</span>
+              <span className="text-sm text-gray-600">{t.forAllGermanCities}</span>
               <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                 Premium
               </button>

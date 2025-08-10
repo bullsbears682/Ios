@@ -49,21 +49,35 @@ export default function DemoPage() {
   }, [selectedPLZ]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Header */}
+      <header className="bg-white shadow-sm p-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <Database className="h-8 w-8 text-blue-600" />
+            <div>
+              <h1 className="text-xl font-bold text-gray-900">{t.title}</h1>
+              <p className="text-sm text-gray-600">Demo</p>
+            </div>
+          </div>
+          <LanguageSwitcher />
+        </div>
+      </header>
+
+      <div className="max-w-6xl mx-auto p-8">
+        {/* Hero Section */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            🇩🇪 Live Demo: Alle deutschen Städte
-          </h1>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            {t.demoTitle}
+          </h2>
           <p className="text-xl text-gray-600">
-            Echte 2025 API-Daten für jede deutsche Postleitzahl
+            {t.demoSubtitle}
           </p>
         </div>
 
         {/* City Selector */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Stadt auswählen</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">{t.selectCity}</h2>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
             {demoCities.map((city) => (
               <button
@@ -111,7 +125,7 @@ export default function DemoPage() {
         {loading ? (
           <div className="bg-white rounded-xl shadow-lg p-12 text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Lade aktuelle Daten für PLZ {selectedPLZ}...</p>
+            <p className="text-gray-600">{t.loadingData} {selectedPLZ}...</p>
           </div>
         ) : (
           <>
@@ -186,7 +200,7 @@ export default function DemoPage() {
                   </div>
                   
                   <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-                    <div className="text-sm text-green-600 font-medium">🗑️ Müll</div>
+                    <div className="text-sm text-green-600 font-medium">🗑️ {t.waste}</div>
                     <div className="text-3xl font-bold text-green-900">
                       €{cityData.avgCosts.waste.toFixed(2)}
                     </div>
@@ -252,7 +266,7 @@ export default function DemoPage() {
                   </div>
                   
                   <div className="bg-green-50 p-4 rounded-lg">
-                    <div className="text-sm text-green-600 font-medium">🌱 CO₂-Intensität</div>
+                    <div className="text-sm text-green-600 font-medium">{t.co2Intensity}</div>
                     <div className="text-2xl font-bold text-green-900">
                       {energyData.co2Footprint}g
                     </div>
@@ -310,11 +324,11 @@ export default function DemoPage() {
                       <span className="font-bold text-green-600">8.000+ ✓</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-700">Bundesländer</span>
+                      <span className="text-gray-700">{t.states}</span>
                       <span className="font-bold text-green-600">16/16 ✓</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-700">Städte & Gemeinden</span>
+                      <span className="text-gray-700">{t.citiesAndMunicipalities}</span>
                       <span className="font-bold text-green-600">11.000+ ✓</span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -327,9 +341,8 @@ export default function DemoPage() {
               
               <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border">
                 <div className="text-sm text-gray-800">
-                  <strong>🎯 Vollständige Deutschland-Abdeckung:</strong> 
-                  Jede deutsche Postleitzahl wird unterstützt mit echten 2025 Energiepreisen 
-                  und regionalen Durchschnittskosten von offiziellen Quellen.
+                  <strong>{t.completeGermanyCoverage}</strong> 
+                  {t.demoCoverage}
                 </div>
               </div>
             </div>
@@ -342,7 +355,7 @@ export default function DemoPage() {
             href="/"
             className="inline-flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
           >
-            <span>← Zurück zur Hauptanwendung</span>
+            <span>{t.backToMain}</span>
           </a>
         </div>
       </div>

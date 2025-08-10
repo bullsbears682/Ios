@@ -1,6 +1,7 @@
 // Nebenkostenabrechnung Analysis Engine
 import { GermanCity, lookupPLZ } from './german-cities';
 import { energyService, RegionalEnergyData } from './energy-apis';
+import { getTranslations, Language } from './i18n';
 
 export interface BillData {
   // Extracted from OCR
@@ -60,7 +61,7 @@ export interface ComparisonResult {
 }
 
 export class NebenkostenAnalyzer {
-  async analyzeBill(billData: BillData): Promise<AnalysisResult> {
+  async analyzeBill(billData: BillData, language: Language = 'de'): Promise<AnalysisResult> {
     // Get city and energy data
     const [cityInfo, energyData] = await Promise.all([
       lookupPLZ(billData.plz),
@@ -93,7 +94,7 @@ export class NebenkostenAnalyzer {
     };
 
     // Calculate potential savings
-    const savings = this.calculateSavings(userCosts, cityInfo.avgCosts, billData.apartmentSize);
+    const savings = this.calculateSavings(userCosts, cityInfo.avgCosts, billData.apartmentSize, language);
 
     // Determine confidence based on data quality
     const confidence = this.calculateConfidence(cityInfo, billData);
@@ -150,10 +151,12 @@ export class NebenkostenAnalyzer {
   private calculateSavings(
     userCosts: AnalysisResult['userCosts'], 
     avgCosts: GermanCity['avgCosts'],
-    apartmentSize: number
+    apartmentSize: number,
+    language: Language = 'de'
   ): { potential: number; recommendations: string[] } {
     let potentialAnnualSavings = 0;
     const recommendations: string[] = [];
+    const t = getTranslations(language);
 
     // Heating savings
     if (userCosts.heating > avgCosts.heating * 1.2) {
@@ -184,12 +187,12 @@ export class NebenkostenAnalyzer {
 
     // General recommendations
     if (potentialAnnualSavings > 200) {
-      recommendations.push('Sprechen Sie mit Ihrem Vermieter über die überdurchschnittlichen Kosten');
-      recommendations.push('Fordern Sie eine detaillierte Aufschlüsselung der Betriebskosten an');
+      recommendations.push(t.recommendTalkToLandlord);
+      recommendations.push(t.recommendDetailedBreakdown);
     }
 
     if (potentialAnnualSavings > 500) {
-      recommendations.push('Erwägen Sie eine Beratung durch den Deutschen Mieterbund');
+      recommendations.push(t.recommendTenantAssociation);
     }
 
     return {

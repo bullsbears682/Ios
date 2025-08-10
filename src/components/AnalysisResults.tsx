@@ -34,32 +34,32 @@ export default function AnalysisResults({ result, onNewAnalysis }: AnalysisResul
   // Chart data
   const comparisonData = [
     {
-      category: 'Heizung',
-      'Ihre Kosten': result.userCosts.heating,
-      'Durchschnitt': result.regionalAverages.heating,
+      category: t.heating,
+      [t.summaryYourCosts]: result.userCosts.heating,
+      [t.summaryRegionalAvg]: result.regionalAverages.heating,
     },
     {
-      category: 'Wasser',
-      'Ihre Kosten': result.userCosts.water,
-      'Durchschnitt': result.regionalAverages.water,
+      category: t.water,
+      [t.summaryYourCosts]: result.userCosts.water,
+      [t.summaryRegionalAvg]: result.regionalAverages.water,
     },
     {
-      category: 'Müll',
-      'Ihre Kosten': result.userCosts.waste,
-      'Durchschnitt': result.regionalAverages.waste,
+      category: t.waste,
+      [t.summaryYourCosts]: result.userCosts.waste,
+      [t.summaryRegionalAvg]: result.regionalAverages.waste,
     },
     {
-      category: 'Wartung',
-      'Ihre Kosten': result.userCosts.maintenance,
-      'Durchschnitt': result.regionalAverages.maintenance,
+      category: t.maintenance,
+      [t.summaryYourCosts]: result.userCosts.maintenance,
+      [t.summaryRegionalAvg]: result.regionalAverages.maintenance,
     },
   ];
 
   const pieData = [
-    { name: 'Heizung', value: result.userCosts.heating, color: '#EF4444' },
-    { name: 'Wasser', value: result.userCosts.water, color: '#3B82F6' },
-    { name: 'Müll', value: result.userCosts.waste, color: '#10B981' },
-    { name: 'Wartung', value: result.userCosts.maintenance, color: '#F59E0B' },
+    { name: t.heating, value: result.userCosts.heating, color: '#EF4444' },
+    { name: t.water, value: result.userCosts.water, color: '#3B82F6' },
+    { name: t.waste, value: result.userCosts.waste, color: '#10B981' },
+    { name: t.maintenance, value: result.userCosts.maintenance, color: '#F59E0B' },
   ];
 
   return (
@@ -85,7 +85,7 @@ export default function AnalysisResults({ result, onNewAnalysis }: AnalysisResul
             </div>
           </div>
           <div className="text-right">
-            <div className="text-sm text-gray-600">Datenqualität</div>
+            <div className="text-sm text-gray-600">{t.dataQuality}</div>
             <div className="text-2xl font-bold text-green-600">{result.confidence}%</div>
           </div>
         </div>
@@ -118,7 +118,7 @@ export default function AnalysisResults({ result, onNewAnalysis }: AnalysisResul
             <div className={`text-sm ${
               result.savings.potential > 0 ? 'text-red-700' : 'text-green-700'
             }`}>
-              {result.savings.potential > 0 ? 'Mögliche Ersparnis' : 'Faire Kosten'}
+              {result.savings.potential > 0 ? t.potentialSavings : t.fairCosts}
             </div>
           </div>
 
@@ -141,12 +141,12 @@ export default function AnalysisResults({ result, onNewAnalysis }: AnalysisResul
           {Object.entries(result.comparisons).map(([category, comparison]) => {
             if (category === 'total') return null;
             
-            const categoryNames: Record<string, string> = {
-              heating: 'Heizung & Warmwasser',
-              water: 'Kaltwasser & Abwasser',
-              waste: 'Müll & Entsorgung',
-              maintenance: 'Instandhaltung & Wartung'
-            };
+                          const categoryNames: Record<string, string> = {
+                heating: t.heating,
+                water: t.water,
+                waste: t.waste,
+                maintenance: t.maintenance
+              };
 
             return (
               <div key={category} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
@@ -229,9 +229,9 @@ export default function AnalysisResults({ result, onNewAnalysis }: AnalysisResul
               </ul>
             ) : (
               <div className="text-green-700 bg-green-50 p-4 rounded-lg">
-                <div className="font-medium">Glückwunsch! 🎉</div>
+                <div className="font-medium">{t.congratulations}</div>
                 <div className="text-sm mt-1">
-                  Ihre Nebenkosten liegen im normalen Bereich. Keine Auffälligkeiten erkannt.
+                  {t.costsInNormalRange}
                 </div>
               </div>
             )}
@@ -241,7 +241,7 @@ export default function AnalysisResults({ result, onNewAnalysis }: AnalysisResul
 
       {/* Energy Data */}
       <div className="bg-white rounded-xl shadow-lg p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-6">Aktuelle Energiedaten für {result.cityInfo.city}</h3>
+        <h3 className="text-xl font-bold text-gray-900 mb-6">{t.currentEnergyData} {result.cityInfo.city}</h3>
         
         <div className="grid md:grid-cols-3 gap-4">
           <div className="bg-yellow-50 p-4 rounded-lg">
@@ -261,7 +261,7 @@ export default function AnalysisResults({ result, onNewAnalysis }: AnalysisResul
           </div>
           
           <div className="bg-green-50 p-4 rounded-lg">
-            <div className="text-sm text-green-600 font-medium">CO₂-Intensität</div>
+            <div className="text-sm text-green-600 font-medium">{t.co2Intensity}</div>
             <div className="text-xl font-bold text-green-900">
               {result.energyData.co2Footprint}g
             </div>
@@ -279,8 +279,8 @@ export default function AnalysisResults({ result, onNewAnalysis }: AnalysisResul
       <div className="bg-white rounded-xl shadow-lg p-6">
         <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Weitere Aktionen</h3>
-            <p className="text-gray-600 text-sm">Exportieren Sie Ihre Analyse oder starten Sie eine neue Prüfung</p>
+            <h3 className="text-lg font-semibold text-gray-900">{t.furtherActions}</h3>
+            <p className="text-gray-600 text-sm">{t.exportAnalysis}</p>
           </div>
           
           <div className="flex space-x-3">

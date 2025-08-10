@@ -94,6 +94,36 @@ export interface Translations {
   
   // Footer
   footerText: string;
+  
+  // Additional UI Elements
+  backToMain: string;
+  dataQuality: string;
+  congratulations: string;
+  fairCosts: string;
+  supportedDocuments: string;
+  forAllGermanCities: string;
+  loadingData: string;
+  currentEnergyData: string;
+  exportAnalysis: string;
+  
+  // Recommendations
+  recommendTalkToLandlord: string;
+  recommendDetailedBreakdown: string;
+  recommendTenantAssociation: string;
+  
+  // Demo specific
+  states: string;
+  citiesAndMunicipalities: string;
+  completeGermanyCoverage: string;
+  
+  // Additional phrases
+  furtherActions: string;
+  co2Intensity: string;
+  costsInNormalRange: string;
+  
+  // Demo page extended
+  demoSubtitle: string;
+  demoCoverage: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -190,7 +220,37 @@ export const translations: Record<Language, Translations> = {
     percentSavings: "% Einsparung",
     
     // Footer
-    footerText: "© 2025 NebenKosten-Checker. Alle Rechte vorbehalten."
+    footerText: "© 2025 NebenKosten-Checker. Alle Rechte vorbehalten.",
+    
+    // Additional UI Elements
+    backToMain: "← Zurück zur Hauptanwendung",
+    dataQuality: "Datenqualität",
+    congratulations: "Glückwunsch! 🎉",
+    fairCosts: "Faire Kosten",
+    supportedDocuments: "Unterstützte Dokumente:",
+    forAllGermanCities: "🇩🇪 Für alle deutschen Städte",
+    loadingData: "Lade aktuelle Daten für PLZ",
+    currentEnergyData: "Aktuelle Energiedaten für",
+    exportAnalysis: "Exportieren Sie Ihre Analyse oder starten Sie eine neue Prüfung",
+    
+    // Recommendations
+    recommendTalkToLandlord: "Sprechen Sie mit Ihrem Vermieter über die überdurchschnittlichen Kosten",
+    recommendDetailedBreakdown: "Fordern Sie eine detaillierte Aufschlüsselung der Betriebskosten an",
+    recommendTenantAssociation: "Erwägen Sie eine Beratung durch den Deutschen Mieterbund",
+    
+    // Demo specific
+    states: "Bundesländer",
+    citiesAndMunicipalities: "Städte & Gemeinden",
+    completeGermanyCoverage: "🎯 Vollständige Deutschland-Abdeckung:",
+    
+    // Additional phrases
+    furtherActions: "Weitere Aktionen",
+    co2Intensity: "🌱 CO₂-Intensität",
+    costsInNormalRange: "Ihre Nebenkosten liegen im normalen Bereich. Keine Auffälligkeiten erkannt.",
+    
+    // Demo page extended
+    demoSubtitle: "Echte 2025 API-Daten für jede deutsche Postleitzahl",
+    demoCoverage: "Jede deutsche Postleitzahl wird unterstützt mit echten 2025 Energiepreisen und regionalen Durchschnittskosten von offiziellen Quellen."
   },
   
   en: {
@@ -286,7 +346,37 @@ export const translations: Record<Language, Translations> = {
     percentSavings: "% potential savings",
     
     // Footer
-    footerText: "© 2025 UtilityCost-Checker. Helping expats understand German utility costs."
+    footerText: "© 2025 UtilityCost-Checker. Helping expats understand German utility costs.",
+    
+    // Additional UI Elements
+    backToMain: "← Back to Main Application",
+    dataQuality: "Data Quality",
+    congratulations: "Congratulations! 🎉",
+    fairCosts: "Fair Costs",
+    supportedDocuments: "Supported Documents:",
+    forAllGermanCities: "🇩🇪 For all German cities",
+    loadingData: "Loading current data for postal code",
+    currentEnergyData: "Current Energy Data for",
+    exportAnalysis: "Export your analysis or start a new check",
+    
+    // Recommendations
+    recommendTalkToLandlord: "Discuss above-average costs with your landlord",
+    recommendDetailedBreakdown: "Request a detailed breakdown of operating costs",
+    recommendTenantAssociation: "Consider consulting the German Tenants' Association (Mieterbund)",
+    
+    // Demo specific
+    states: "Federal States",
+    citiesAndMunicipalities: "Cities & Municipalities", 
+    completeGermanyCoverage: "🎯 Complete Germany Coverage:",
+    
+    // Additional phrases
+    furtherActions: "Further Actions",
+    co2Intensity: "🌱 CO₂ Intensity",
+    costsInNormalRange: "Your utility costs are within normal range. No issues detected.",
+    
+    // Demo page extended
+    demoSubtitle: "Real 2025 API data for every German postal code",
+    demoCoverage: "Every German postal code is supported with real 2025 energy prices and regional average costs from official sources."
   }
 };
 

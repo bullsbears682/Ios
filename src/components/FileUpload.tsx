@@ -17,7 +17,7 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
   const [uploadProgress, setUploadProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const processFile = async (file: File) => {
     setIsAnalyzing(true);
@@ -62,7 +62,7 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
       setUploadProgress(90);
 
       // Analyze the bill
-      const result = await billAnalyzer.analyzeBill(extractedData as BillData);
+      const result = await billAnalyzer.analyzeBill(extractedData as BillData, language);
       
       setUploadProgress(100);
       setCurrentStep(t.stepCompleted);
@@ -193,7 +193,7 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
       
       {/* Example formats */}
       <div className="mt-8 pt-6 border-t border-gray-200">
-        <p className="text-sm text-gray-500 mb-3">Unterstützte Dokumente:</p>
+        <p className="text-sm text-gray-500 mb-3">{t.supportedDocuments}</p>
         <div className="flex justify-center space-x-6 text-xs text-gray-400">
           <span>✓ Betriebskostenabrechnung</span>
           <span>✓ Heizkostenabrechnung</span>
