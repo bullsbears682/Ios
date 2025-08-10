@@ -124,6 +124,23 @@ export interface Translations {
   // Demo page extended
   demoSubtitle: string;
   demoCoverage: string;
+  
+  // Manual input
+  manualDataEntry: string;
+  enterDataManually: string;
+  manualInputDescription: string;
+  addressInformation: string;
+  monthlyCosting: string;
+  billingPeriod: string;
+  startDate: string;
+  endDate: string;
+  analyzeCosts: string;
+  cancel: string;
+  tipsTitle: string;
+  tip1: string;
+  tip2: string;
+  tip3: string;
+  tip4: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -250,7 +267,24 @@ export const translations: Record<Language, Translations> = {
     
     // Demo page extended
     demoSubtitle: "Echte 2025 API-Daten für jede deutsche Postleitzahl",
-    demoCoverage: "Jede deutsche Postleitzahl wird unterstützt mit echten 2025 Energiepreisen und regionalen Durchschnittskosten von offiziellen Quellen."
+    demoCoverage: "Jede deutsche Postleitzahl wird unterstützt mit echten 2025 Energiepreisen und regionalen Durchschnittskosten von offiziellen Quellen.",
+    
+    // Manual input
+    manualDataEntry: "Manuelle Dateneingabe",
+    enterDataManually: "Daten manuell eingeben",
+    manualInputDescription: "Bitte geben Sie Ihre Nebenkostendaten manuell ein",
+    addressInformation: "Adressinformationen",
+    monthlyCosting: "Monatliche Kosten (€)",
+    billingPeriod: "Abrechnungszeitraum",
+    startDate: "Startdatum",
+    endDate: "Enddatum",
+    analyzeCosts: "Kosten analysieren",
+    cancel: "Abbrechen",
+    tipsTitle: "💡 Tipps für eine genaue Analyse:",
+    tip1: "• Geben Sie die Postleitzahl der Immobilie ein",
+    tip2: "• Verwenden Sie die exakte Wohnungsgröße aus dem Mietvertrag",
+    tip3: "• Geben Sie monatliche Kosten ein, nicht jährliche Beträge",
+    tip4: "• Berücksichtigen Sie alle Kosten aus Ihrer Nebenkostenabrechnung"
   },
   
   en: {
@@ -376,7 +410,24 @@ export const translations: Record<Language, Translations> = {
     
     // Demo page extended
     demoSubtitle: "Real 2025 API data for every German postal code",
-    demoCoverage: "Every German postal code is supported with real 2025 energy prices and regional average costs from official sources."
+    demoCoverage: "Every German postal code is supported with real 2025 energy prices and regional average costs from official sources.",
+    
+    // Manual input
+    manualDataEntry: "Manual Data Entry",
+    enterDataManually: "Enter Data Manually",
+    manualInputDescription: "Please enter your utility bill information manually",
+    addressInformation: "Address Information",
+    monthlyCosting: "Monthly Costs (€)",
+    billingPeriod: "Billing Period",
+    startDate: "Start Date",
+    endDate: "End Date",
+    analyzeCosts: "Analyze Costs",
+    cancel: "Cancel",
+    tipsTitle: "💡 Tips for accurate analysis:",
+    tip1: "• Enter the postal code where the property is located",
+    tip2: "• Use the exact apartment size from your rental contract",
+    tip3: "• Enter monthly costs, not annual amounts",
+    tip4: "• Include all costs shown on your Nebenkostenabrechnung"
   }
 };
 

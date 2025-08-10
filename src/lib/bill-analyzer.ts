@@ -2,6 +2,7 @@
 import { GermanCity, lookupPLZ } from './german-cities';
 import { energyService, RegionalEnergyData } from './energy-apis';
 import { getTranslations, Language } from './i18n';
+import { OCRPreprocessor } from './ocr-preprocessor';
 
 export interface BillData {
   // Extracted from OCR
@@ -231,16 +232,16 @@ export class NebenkostenAnalyzer {
   async extractBillData(ocrText: string): Promise<Partial<BillData>> {
     const billData: Partial<BillData> = {};
 
-    // Extract PLZ from address
-    const plzMatch = ocrText.match(/\b(\d{5})\b/);
-    if (plzMatch) {
-      billData.plz = plzMatch[1];
+    // Use improved PLZ extraction
+    const plzCandidates = OCRPreprocessor.extractPLZPatterns(ocrText);
+    if (plzCandidates.length > 0) {
+      billData.plz = plzCandidates[0];
     }
 
-    // Extract apartment size
-    const sizeMatch = ocrText.match(/(\d+(?:,\d+)?)\s*m²/i);
-    if (sizeMatch) {
-      billData.apartmentSize = parseFloat(sizeMatch[1].replace(',', '.'));
+    // Use improved apartment size extraction
+    const apartmentSize = OCRPreprocessor.extractApartmentSize(ocrText);
+    if (apartmentSize) {
+      billData.apartmentSize = apartmentSize;
     }
 
     // Extract period (German date format)

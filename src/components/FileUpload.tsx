@@ -2,10 +2,12 @@
 
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Upload, FileText, Loader2, AlertCircle } from 'lucide-react';
+import { Upload, FileText, Loader2, AlertCircle, Edit3 } from 'lucide-react';
 import Tesseract from 'tesseract.js';
 import { billAnalyzer, AnalysisResult, BillData } from '@/lib/bill-analyzer';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { OCRPreprocessor } from '@/lib/ocr-preprocessor';
+import ManualDataInput from './ManualDataInput';
 
 interface FileUploadProps {
   onAnalysisComplete: (result: AnalysisResult) => void;
@@ -17,6 +19,8 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
   const [uploadProgress, setUploadProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [showManualInput, setShowManualInput] = useState(false);
+  const [partialData, setPartialData] = useState<Partial<BillData> | null>(null);
   const { t, language } = useLanguage();
 
   const processFile = async (file: File) => {
@@ -28,34 +32,75 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
       setCurrentStep(t.stepProcessing);
       setUploadProgress(20);
 
-      // Convert file to image for OCR
-      const imageUrl = URL.createObjectURL(file);
+      // Preprocess image for better OCR
+      const processedImageUrl = await OCRPreprocessor.preprocessImage(file);
       
       setCurrentStep(t.stepExtracting);
       setUploadProgress(40);
 
-      // OCR processing with German language support
-      const { data: { text } } = await Tesseract.recognize(imageUrl, 'deu', {
-        logger: (m) => {
-          if (m.status === 'recognizing text') {
-            setUploadProgress(40 + (m.progress * 40));
+      // Try multiple OCR approaches
+      let text = '';
+      let ocrSuccess = false;
+
+      // Attempt 1: German with preprocessing
+      try {
+        const result1 = await Tesseract.recognize(processedImageUrl, 'deu', {
+          logger: (m) => {
+            if (m.status === 'recognizing text') {
+              setUploadProgress(40 + (m.progress * 20));
+            }
           }
+        });
+        text = result1.data.text;
+        ocrSuccess = true;
+      } catch (e) {
+        console.log('German OCR failed, trying English...');
+      }
+
+      // Attempt 2: English as fallback
+      if (!ocrSuccess || text.length < 50) {
+        try {
+          const result2 = await Tesseract.recognize(processedImageUrl, 'eng', {
+            logger: (m) => {
+              if (m.status === 'recognizing text') {
+                setUploadProgress(60 + (m.progress * 20));
+              }
+            }
+          });
+          text = result2.data.text;
+          ocrSuccess = true;
+        } catch (e) {
+          console.log('English OCR also failed');
         }
-      });
+      }
 
       setCurrentStep(t.stepAnalyzing);
       setUploadProgress(80);
 
-      // Extract bill data from OCR text
-      const extractedData = await billAnalyzer.extractBillData(text);
+      // Extract bill data from OCR text with improved methods
+      let extractedData = await billAnalyzer.extractBillData(text);
       
-      // Validate extracted data
+      // Try enhanced extraction if initial attempt failed
       if (!extractedData.plz) {
-        throw new Error(t.errorPLZNotFound);
+        const plzCandidates = OCRPreprocessor.extractPLZPatterns(text);
+        if (plzCandidates.length > 0) {
+          extractedData.plz = plzCandidates[0];
+        }
       }
-
+      
       if (!extractedData.apartmentSize) {
-        throw new Error(t.errorApartmentSize);
+        const size = OCRPreprocessor.extractApartmentSize(text);
+        if (size) {
+          extractedData.apartmentSize = size;
+        }
+      }
+      
+      // If still missing critical data, offer manual input
+      if (!extractedData.plz || !extractedData.apartmentSize) {
+        setPartialData(extractedData);
+        setShowManualInput(true);
+        setIsAnalyzing(false);
+        return;
       }
 
       setCurrentStep(t.stepComparing);
@@ -68,7 +113,7 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
       setCurrentStep(t.stepCompleted);
       
       // Clean up
-      URL.revokeObjectURL(imageUrl);
+      // URL.revokeObjectURL(processedImageUrl); // Don't revoke data URL
       
       setTimeout(() => {
         onAnalysisComplete(result);
@@ -88,6 +133,35 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
     }
   }, []);
 
+  const handleManualDataSubmit = async (data: BillData) => {
+    setIsAnalyzing(true);
+    setShowManualInput(false);
+    setCurrentStep(t.stepAnalyzing);
+    setUploadProgress(80);
+
+    try {
+      const result = await billAnalyzer.analyzeBill(data, language);
+      setUploadProgress(100);
+      setCurrentStep(t.stepCompleted);
+      
+      setTimeout(() => {
+        onAnalysisComplete(result);
+        setIsAnalyzing(false);
+      }, 1000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t.errorAnalysisFailed);
+      setIsAnalyzing(false);
+    }
+  };
+
+  const handleManualCancel = () => {
+    setShowManualInput(false);
+    setPartialData(null);
+    setError(null);
+    setUploadProgress(0);
+    setCurrentStep('');
+  };
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
@@ -96,7 +170,7 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
     },
     maxFiles: 1,
     maxSize: 10 * 1024 * 1024, // 10MB
-    disabled: isAnalyzing
+    disabled: isAnalyzing || showManualInput
   });
 
   if (isAnalyzing) {
@@ -123,24 +197,43 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
     );
   }
 
+  if (showManualInput) {
+    return (
+      <ManualDataInput
+        onDataSubmit={handleManualDataSubmit}
+        onCancel={handleManualCancel}
+        initialData={partialData || undefined}
+      />
+    );
+  }
+
   if (error) {
     return (
       <div className="border-2 border-red-300 border-dashed rounded-xl p-6 sm:p-8 lg:p-12 text-center bg-red-50">
         <AlertCircle className="h-12 w-12 sm:h-16 sm:w-16 text-red-600 mx-auto mb-3 sm:mb-4" />
         <h3 className="text-lg sm:text-xl font-semibold text-red-900 mb-2">
-          {t.errorAnalysisFailed}
+          OCR Detection Failed
         </h3>
         <p className="text-sm sm:text-base text-red-700 mb-4 sm:mb-6 px-2">{error}</p>
-        <button 
-          onClick={() => {
-            setError(null);
-            setUploadProgress(0);
-            setCurrentStep('');
-          }}
-          className="bg-red-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-red-700 transition-colors text-sm sm:text-base"
-        >
-          {t.newAnalysis}
-        </button>
+        <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-center">
+          <button 
+            onClick={() => setShowManualInput(true)}
+            className="bg-blue-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base flex items-center justify-center space-x-2"
+          >
+            <Edit3 className="h-4 w-4" />
+                         <span>{t.enterDataManually}</span>
+          </button>
+          <button 
+            onClick={() => {
+              setError(null);
+              setUploadProgress(0);
+              setCurrentStep('');
+            }}
+            className="bg-gray-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm sm:text-base"
+          >
+            {t.newAnalysis}
+          </button>
+        </div>
       </div>
     );
   }
