@@ -285,10 +285,10 @@ export const translations: Record<Language, Translations> = {
     analyzeCosts: "Kosten analysieren",
     cancel: "Abbrechen",
     tipsTitle: "💡 Tipps für eine genaue Analyse:",
-    tip1: "• Geben Sie die Postleitzahl der Immobilie ein",
-    tip2: "• Verwenden Sie die exakte Wohnungsgröße aus dem Mietvertrag",
-    tip3: "• Geben Sie monatliche Kosten ein, nicht jährliche Beträge",
-    tip4: "• Berücksichtigen Sie alle Kosten aus Ihrer Nebenkostenabrechnung"
+    tip1: "• Geben Sie Kosten pro m²/Monat ein (€/m²/Monat)",
+    tip2: "• Bei Gesamtkosten: Teilen Sie durch Wohnungsgröße",
+    tip3: "• Bei Jahreskosten: Erst durch 12 Monate teilen",
+    tip4: "• Nutzen Sie den Kostenrechner für automatische Umrechnung"
   },
   
   en: {
@@ -430,10 +430,10 @@ export const translations: Record<Language, Translations> = {
     analyzeCosts: "Analyze Costs",
     cancel: "Cancel",
     tipsTitle: "💡 Tips for accurate analysis:",
-    tip1: "• Enter the postal code where the property is located",
-    tip2: "• Use the exact apartment size from your rental contract",
-    tip3: "• Enter monthly costs, not annual amounts",
-    tip4: "• Include all costs shown on your Nebenkostenabrechnung"
+    tip1: "• Enter costs per m²/month (€/m²/month)",
+    tip2: "• For total costs: Divide by apartment size",
+    tip3: "• For yearly costs: Divide by 12 months first",
+    tip4: "• Use the cost calculator for automatic conversion"
   }
 };
 

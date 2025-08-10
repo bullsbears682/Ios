@@ -5,20 +5,20 @@ import { getTranslations, Language } from './i18n';
 import { OCRPreprocessor } from './ocr-preprocessor';
 
 export interface BillData {
-  // Extracted from OCR
-  totalAmount: number;
+  // User input data
+  totalAmount: number;      // Total monthly € for apartment
   period: {
     start: string;
     end: string;
   };
-  apartmentSize: number; // m²
+  apartmentSize: number;    // m²
   costs: {
-    heating: number;      // Total €
-    water: number;        // Total €
-    waste: number;        // Total €
-    maintenance: number;  // Total €
-    electricity: number;  // Total €
-    other: number;        // Total €
+    heating: number;        // Monthly € for apartment
+    water: number;          // Monthly € for apartment
+    waste: number;          // Monthly € for apartment
+    maintenance: number;    // Monthly € for apartment
+    electricity: number;    // Monthly € for apartment
+    other: number;          // Monthly € for apartment
   };
   plz: string;
   address: string;
@@ -73,14 +73,13 @@ export class NebenkostenAnalyzer {
       throw new Error(`Unbekannte Postleitzahl: ${billData.plz}`);
     }
 
-    // Calculate per m² monthly costs
-    const monthsInPeriod = this.calculateMonthsInPeriod(billData.period);
+    // Calculate per m² monthly costs (input is already monthly)
     const userCosts = {
-      heating: billData.costs.heating / billData.apartmentSize / monthsInPeriod,
-      water: billData.costs.water / billData.apartmentSize / monthsInPeriod,
-      waste: billData.costs.waste / billData.apartmentSize / monthsInPeriod,
-      maintenance: billData.costs.maintenance / billData.apartmentSize / monthsInPeriod,
-      total: (billData.totalAmount - billData.costs.electricity) / billData.apartmentSize / monthsInPeriod
+      heating: billData.costs.heating / billData.apartmentSize,
+      water: billData.costs.water / billData.apartmentSize,
+      waste: billData.costs.waste / billData.apartmentSize,
+      maintenance: billData.costs.maintenance / billData.apartmentSize,
+      total: billData.totalAmount / billData.apartmentSize
     };
 
     // Compare with regional averages
