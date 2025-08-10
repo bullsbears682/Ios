@@ -5,6 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import { Upload, FileText, Loader2, AlertCircle } from 'lucide-react';
 import Tesseract from 'tesseract.js';
 import { billAnalyzer, AnalysisResult, BillData } from '@/lib/bill-analyzer';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface FileUploadProps {
   onAnalysisComplete: (result: AnalysisResult) => void;
@@ -16,6 +17,7 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
   const [uploadProgress, setUploadProgress] = useState(0);
   const [currentStep, setCurrentStep] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   const processFile = async (file: File) => {
     setIsAnalyzing(true);
@@ -23,13 +25,13 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
     setUploadProgress(0);
 
     try {
-      setCurrentStep('Dokument wird verarbeitet...');
+      setCurrentStep(t.stepProcessing);
       setUploadProgress(20);
 
       // Convert file to image for OCR
       const imageUrl = URL.createObjectURL(file);
       
-      setCurrentStep('Text wird erkannt...');
+      setCurrentStep(t.stepExtracting);
       setUploadProgress(40);
 
       // OCR processing with German language support
@@ -41,7 +43,7 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
         }
       });
 
-      setCurrentStep('Kosten werden analysiert...');
+      setCurrentStep(t.stepAnalyzing);
       setUploadProgress(80);
 
       // Extract bill data from OCR text
@@ -49,21 +51,21 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
       
       // Validate extracted data
       if (!extractedData.plz) {
-        throw new Error('Postleitzahl konnte nicht erkannt werden. Bitte stellen Sie sicher, dass die Adresse gut lesbar ist.');
+        throw new Error(t.errorPLZNotFound);
       }
 
       if (!extractedData.apartmentSize) {
-        throw new Error('Wohnungsgröße (m²) konnte nicht erkannt werden.');
+        throw new Error(t.errorApartmentSize);
       }
 
-      setCurrentStep('Vergleich mit regionalen Durchschnittskosten...');
+      setCurrentStep(t.stepComparing);
       setUploadProgress(90);
 
       // Analyze the bill
       const result = await billAnalyzer.analyzeBill(extractedData as BillData);
       
       setUploadProgress(100);
-      setCurrentStep('Analyse abgeschlossen!');
+      setCurrentStep(t.stepCompleted);
       
       // Clean up
       URL.revokeObjectURL(imageUrl);
@@ -102,7 +104,7 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
       <div className="border-2 border-blue-300 border-dashed rounded-xl p-12 text-center bg-blue-50">
         <Loader2 className="h-16 w-16 text-blue-600 mx-auto mb-4 animate-spin" />
         <h3 className="text-xl font-semibold text-gray-900 mb-2">
-          Ihre Nebenkostenabrechnung wird analysiert
+          {t.stepAnalyzing}
         </h3>
         <p className="text-gray-600 mb-4">{currentStep}</p>
         
@@ -126,7 +128,7 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
       <div className="border-2 border-red-300 border-dashed rounded-xl p-12 text-center bg-red-50">
         <AlertCircle className="h-16 w-16 text-red-600 mx-auto mb-4" />
         <h3 className="text-xl font-semibold text-red-900 mb-2">
-          Fehler bei der Analyse
+          {t.errorAnalysisFailed}
         </h3>
         <p className="text-red-700 mb-6">{error}</p>
         <button 
@@ -137,7 +139,7 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
           }}
           className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors"
         >
-          Erneut versuchen
+          {t.newAnalysis}
         </button>
       </div>
     );
@@ -160,10 +162,10 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
             <Upload className="h-16 w-16 text-blue-600 mx-auto animate-bounce" />
             <div>
               <h3 className="text-xl font-semibold text-blue-900">
-                Datei hier ablegen
+                {t.uploadDrop}
               </h3>
               <p className="text-blue-700">
-                Lassen Sie Ihre Nebenkostenabrechnung los
+                {t.uploadTitle}
               </p>
             </div>
           </>
@@ -172,18 +174,18 @@ export default function FileUpload({ onAnalysisComplete, isAnalyzing, setIsAnaly
             <FileText className="h-16 w-16 text-gray-400 mx-auto" />
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Nebenkostenabrechnung hochladen
+                {t.uploadTitle}
               </h3>
               <p className="text-gray-600 mb-4">
-                Ziehen Sie Ihre Datei hierher oder klicken Sie zum Auswählen
+                {t.uploadDrop}
               </p>
               <div className="text-sm text-gray-500">
-                PDF, JPG, PNG bis 10MB • Automatische Texterkennung • DSGVO-konform
+                {t.uploadFormats} • {t.gdprCompliant}
               </div>
             </div>
             
             <button className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
-              Datei auswählen
+              {t.uploadButton}
             </button>
           </>
         )}

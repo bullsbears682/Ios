@@ -3,6 +3,7 @@
 import { AnalysisResult } from '@/lib/bill-analyzer';
 import { TrendingUp, TrendingDown, Minus, MapPin, Calendar, Home, Euro, Download, RotateCcw } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface AnalysisResultsProps {
   result: AnalysisResult;
@@ -10,6 +11,8 @@ interface AnalysisResultsProps {
 }
 
 export default function AnalysisResults({ result, onNewAnalysis }: AnalysisResultsProps) {
+  const { t } = useLanguage();
+  
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'low': return <TrendingDown className="h-5 w-5 text-green-500" />;

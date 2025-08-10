@@ -1,8 +1,16 @@
-# 🏠 NebenKosten-Checker
+# 🏠 NebenKosten-Checker | UtilityCost-Checker
 
-**Deutschlands erste vollautomatische Nebenkostenprüfung mit 2025 Live-Daten**
+**Deutschlands erste vollautomatische Nebenkostenprüfung mit 2025 Live-Daten**  
+**Germany's first fully automatic utility bill checker with 2025 live data**
 
 Analysieren Sie Ihre Betriebskostenabrechnung in Sekunden und vergleichen Sie mit aktuellen Durchschnittskosten aus **allen deutschen Städten**.
+
+*Analyze your German utility bill in seconds and compare with current average costs from **all German cities**. Perfect for expats and international residents.*
+
+## 🌍 **Available in Two Languages**
+
+- **🇩🇪 Deutsch:** Vollständige deutsche Benutzeroberfläche für Einheimische
+- **🇬🇧 English:** Complete English interface for expats and international residents living in Germany
 
 ## 🚀 Features
 

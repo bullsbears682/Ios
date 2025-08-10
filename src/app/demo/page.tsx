@@ -4,12 +4,15 @@ import { useState, useEffect } from 'react';
 import { MapPin, Zap, TrendingUp, Database } from 'lucide-react';
 import { lookupPLZ } from '@/lib/german-cities';
 import { energyService } from '@/lib/energy-apis';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function DemoPage() {
   const [selectedPLZ, setSelectedPLZ] = useState('10115');
   const [cityData, setCityData] = useState<any>(null);
   const [energyData, setEnergyData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const { t } = useLanguage();
 
   // Demo PLZ codes for major German cities
   const demoCities = [
