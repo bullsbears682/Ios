@@ -7,6 +7,7 @@ import { energyService } from '@/lib/energy-apis';
 import { useLanguage } from '@/contexts/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import CitySelector from '@/components/CitySelector';
+import DataComparison from '@/components/DataComparison';
 
 export default function DemoPage() {
   const [selectedPLZ, setSelectedPLZ] = useState('10115');
@@ -195,6 +196,13 @@ export default function DemoPage() {
                     ).toFixed(0)}/Monat
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* Data Verification */}
+            {cityData && (
+              <div className="md:col-span-2 mb-8">
+                <DataComparison plz={selectedPLZ} />
               </div>
             )}
 

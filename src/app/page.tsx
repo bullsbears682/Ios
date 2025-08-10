@@ -170,7 +170,7 @@ export default function Home() {
               <ul className="text-gray-400 text-sm space-y-1">
                 <li>Kostenlose Analyse</li>
                 <li>Premium Features</li>
-                <li>API Zugang</li>
+                <li><a href="/api-status" className="hover:text-white transition-colors">🔍 Data Verification</a></li>
               </ul>
             </div>
             <div>
