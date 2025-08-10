@@ -10,6 +10,8 @@ export interface Translations {
   heroTitle: string;
   heroSubtitle: string;
   heroDescription: string;
+  heroManualTitle: string;
+  heroManualDescription: string;
   
   // Features
   featuresTitle: string;
@@ -152,13 +154,15 @@ export const translations: Record<Language, Translations> = {
     
     // Hero Section
     heroTitle: "Sind Ihre Nebenkosten zu hoch?",
-    heroSubtitle: "Finden Sie es in 30 Sekunden heraus",
-    heroDescription: "Laden Sie Ihre Nebenkostenabrechnung hoch und vergleichen Sie automatisch mit aktuellen Durchschnittswerten aus ganz Deutschland. Basierend auf offiziellen 2025-Daten.",
+    heroSubtitle: "Finden Sie es in 2 Minuten heraus",
+    heroDescription: "Geben Sie Ihre Nebenkostendaten ein und vergleichen Sie sofort mit aktuellen Durchschnittskosten aus ganz Deutschland. Optional: Scannen Sie Ihre Rechnung zum automatischen Ausfüllen.",
+    heroManualTitle: "Prüfen Sie Ihre Nebenkosten in 2 Minuten",
+    heroManualDescription: "Geben Sie Ihre Nebenkostendaten ein und vergleichen Sie sofort mit aktuellen Durchschnittskosten aus ganz Deutschland. Optional: Scannen Sie Ihre Rechnung zum automatischen Ausfüllen.",
     
     // Features
     featuresTitle: "Warum NebenKosten-Checker?",
-    feature1Title: "Automatische Analyse",
-    feature1Description: "KI-gestützte Texterkennung analysiert Ihre Abrechnung in Sekunden",
+    feature1Title: "Einfache Eingabe",
+    feature1Description: "Schnelle manuelle Eingabe mit optionaler KI-Scan-Unterstützung für maximale Genauigkeit",
     feature2Title: "Aktuelle 2025-Daten",
     feature2Description: "Vergleich mit Live-Daten aus allen deutschen Städten und Regionen",
     feature3Title: "DSGVO-konform",
@@ -295,13 +299,15 @@ export const translations: Record<Language, Translations> = {
     
     // Hero Section
     heroTitle: "Are Your German Utility Bills Too High?",
-    heroSubtitle: "Find Out in 30 Seconds",
-    heroDescription: "Upload your German utility bill (Nebenkostenabrechnung) and automatically compare with current average costs from across Germany. Perfect for expats and international residents. Based on official 2025 data.",
+    heroSubtitle: "Find Out in 2 Minutes",
+    heroDescription: "Enter your utility bill data and instantly compare with current average costs from across Germany. Optional: Scan your bill to auto-fill fields. Perfect for expats and international residents.",
+    heroManualTitle: "Check Your German Utility Costs in 2 Minutes",
+    heroManualDescription: "Enter your utility bill data and instantly compare with current average costs from across Germany. Optional: Scan your bill to auto-fill fields. Perfect for expats and international residents.",
     
     // Features
     featuresTitle: "Why UtilityCost-Checker?",
-    feature1Title: "Automatic Analysis",
-    feature1Description: "AI-powered German text recognition analyzes your Nebenkostenabrechnung in seconds",
+    feature1Title: "Easy Input",
+    feature1Description: "Quick manual entry with optional AI scan assistance for maximum accuracy",
     feature2Title: "Current 2025 Data",
     feature2Description: "Compare with live data from all German cities and regions using official APIs",
     feature3Title: "GDPR Compliant",
