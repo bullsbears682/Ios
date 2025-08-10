@@ -143,15 +143,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Pricing Preview */}
-            <div className="text-center">
-              <p className="text-gray-600 mb-4">
-                🆓 Erste Analyse kostenlos • Premium ab €9.99/Monat für unbegrenzte Analysen
-              </p>
-              <div className="text-sm text-gray-500">
-                Über 50.000 deutsche Mieter vertrauen bereits auf unsere Analysen
-              </div>
-            </div>
+
           </>
         ) : (
           /* Analysis Results */
