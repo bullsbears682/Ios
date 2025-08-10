@@ -4,6 +4,7 @@ import { AnalysisResult } from '@/lib/bill-analyzer';
 import { TrendingUp, TrendingDown, Minus, MapPin, Calendar, Home, Euro, Download, RotateCcw } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { useLanguage } from '@/contexts/LanguageContext';
+import PDFExport from './PDFExport';
 
 interface AnalysisResultsProps {
   result: AnalysisResult;
@@ -284,17 +285,14 @@ export default function AnalysisResults({ result, onNewAnalysis }: AnalysisResul
           </div>
           
           <div className="flex space-x-3">
-            <button className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
-              <Download className="h-4 w-4" />
-              <span>PDF Report</span>
-            </button>
+            <PDFExport result={result} />
             
             <button 
               onClick={onNewAnalysis}
               className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
             >
               <RotateCcw className="h-4 w-4" />
-              <span>Neue Analyse</span>
+              <span>{t.newAnalysis}</span>
             </button>
           </div>
         </div>

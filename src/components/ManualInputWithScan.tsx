@@ -5,6 +5,7 @@ import { MapPin, Home, Euro, Calculator, Camera, Upload, Scan, Loader2 } from 'l
 import { useLanguage } from '@/contexts/LanguageContext';
 import { BillData, billAnalyzer } from '@/lib/bill-analyzer';
 import { OCRPreprocessor } from '@/lib/ocr-preprocessor';
+import { PDFProcessor } from '@/lib/pdf-processor';
 import CostCalculator from './CostCalculator';
 import Tesseract from 'tesseract.js';
 
@@ -147,9 +148,18 @@ export default function ManualInputWithScan({ onAnalysisComplete }: ManualInputW
     try {
       setScanProgress(20);
       
-      // Preprocess image
-      const processedImageUrl = await OCRPreprocessor.preprocessImage(file);
-      setScanProgress(40);
+      let processedImageUrl: string;
+      
+      // Handle PDF files differently
+      if (PDFProcessor.isPDFFile(file)) {
+        // Convert PDF to image first
+        processedImageUrl = await PDFProcessor.extractTextFromPDF(file);
+        setScanProgress(40);
+      } else {
+        // Preprocess regular image
+        processedImageUrl = await OCRPreprocessor.preprocessImage(file);
+        setScanProgress(40);
+      }
 
       // OCR processing
       const { data: { text } } = await Tesseract.recognize(processedImageUrl, 'deu', {
@@ -550,19 +560,25 @@ export default function ManualInputWithScan({ onAnalysisComplete }: ManualInputW
           </div>
         </div>
 
-        {/* Scan Info */}
-        <div className="bg-green-50 rounded-lg p-4">
-          <h5 className="font-medium text-green-900 mb-3">📸 Smart Scan Assistant</h5>
-          <ul className="text-sm text-green-800 space-y-1">
-            <li>• Take a photo or upload your bill</li>
-            <li>• AI will try to detect PLZ and costs</li>
-            <li>• Review and correct any fields</li>
-            <li>• Submit for accurate analysis</li>
-          </ul>
-          <p className="text-xs text-green-700 mt-2">
-            💡 Scan is optional - you can always enter data manually for 100% accuracy
-          </p>
-        </div>
+                 {/* Scan Info */}
+         <div className="bg-green-50 rounded-lg p-4">
+           <h5 className="font-medium text-green-900 mb-3">📸 Smart Scan Assistant</h5>
+           <ul className="text-sm text-green-800 space-y-1">
+             <li>• 📷 Take photo of your bill</li>
+             <li>• 📄 Upload PDF or image file</li>
+             <li>• 🤖 AI extracts PLZ and costs</li>
+             <li>• ✅ Review and correct fields</li>
+             <li>• 🚀 Submit for analysis</li>
+           </ul>
+           <div className="mt-3 p-2 bg-green-100 rounded border border-green-300">
+             <p className="text-xs text-green-800">
+               <strong>Supported:</strong> PDF, JPG, PNG (max 10MB)
+             </p>
+             <p className="text-xs text-green-700 mt-1">
+               💡 Scan is optional - manual entry guarantees 100% accuracy
+             </p>
+           </div>
+         </div>
       </div>
 
       {/* Data Sources */}
