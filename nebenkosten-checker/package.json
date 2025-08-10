@@ -1,0 +1,50 @@
+{
+  "name": "nebenkosten-checker",
+  "version": "1.0.0",
+  "description": "German utility bill analyzer with real 2025 data for all German cities",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@stripe/stripe-js": "^4.10.0",
+    "axios": "^1.7.9",
+    "lucide-react": "^0.468.0",
+    "multer": "^1.4.5-lts.1",
+    "next": "15.1.3",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-dropzone": "^14.3.5",
+    "recharts": "^2.15.0",
+    "sharp": "^0.33.5",
+    "stripe": "^17.4.0",
+    "tesseract.js": "^5.1.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "15.1.3",
+    "postcss": "^8",
+    "tailwindcss": "^3",
+    "typescript": "^5"
+  },
+  "keywords": [
+    "german",
+    "utility",
+    "bills", 
+    "nebenkosten",
+    "betriebskosten",
+    "germany",
+    "rent",
+    "calculator"
+  ],
+  "author": "NebenKosten-Checker",
+  "license": "MIT"
+}
