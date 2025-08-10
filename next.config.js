@@ -1,17 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Termux-optimiert
-  experimental: {
-    esmExternals: false,
-  },
+  // Netlify deployment settings - static export
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
   
   // Mobile-freundlich
   images: {
     unoptimized: true
   },
-  
-  // Kleinere Bundle-Größe
-  swcMinify: true,
   
   // Bessere Performance auf schwächeren Geräten
   compiler: {
@@ -46,20 +43,6 @@ const nextConfig = {
     };
     
     return config;
-  },
-  
-  // Headers für bessere API-Performance
-  async headers() {
-    return [
-      {
-        source: '/api/:path*',
-        headers: [
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-          { key: 'Access-Control-Allow-Methods', value: 'GET, POST, OPTIONS' },
-          { key: 'Access-Control-Allow-Headers', value: 'Content-Type' },
-        ],
-      },
-    ];
   },
   
   // Umgebungsvariablen
