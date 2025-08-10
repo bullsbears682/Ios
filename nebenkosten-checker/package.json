@@ -4,10 +4,12 @@
   "description": "German utility bill analyzer with real 2025 data for all German cities",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3000 --hostname 0.0.0.0",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start -p 3000 --hostname 0.0.0.0",
+    "lint": "next lint",
+    "termux": "NODE_OPTIONS='--max-old-space-size=1024' npm run dev",
+    "termux-build": "NODE_OPTIONS='--max-old-space-size=1024' npm run build"
   },
   "dependencies": {
     "@stripe/stripe-js": "^4.10.0",
