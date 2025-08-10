@@ -149,7 +149,7 @@ export const translations: Record<Language, Translations> = {
   de: {
     // Navigation & Header
     title: "NebenKosten-Checker",
-    subtitle: "Intelligente Nebenkostenanalyse für Deutschland",
+    subtitle: "Transparente Nebenkostenanalyse mit echten APIs",
     languageSwitch: "English",
     
     // Hero Section
@@ -163,8 +163,8 @@ export const translations: Record<Language, Translations> = {
     featuresTitle: "Warum NebenKosten-Checker?",
     feature1Title: "Einfache Eingabe",
     feature1Description: "Schnelle manuelle Eingabe mit optionaler KI-Scan-Unterstützung für maximale Genauigkeit",
-    feature2Title: "Aktuelle 2025-Daten",
-    feature2Description: "Vergleich mit Live-Daten aus allen deutschen Städten und Regionen",
+    feature2Title: "Offizielle Statistiken + Live-APIs",
+    feature2Description: "Echte Strompreise (Awattar) + offizielle Betriebskostenspiegel-Daten",
     feature3Title: "DSGVO-konform",
     feature3Description: "Ihre Daten bleiben privat und werden nicht gespeichert",
     
@@ -294,7 +294,7 @@ export const translations: Record<Language, Translations> = {
   en: {
     // Navigation & Header
     title: "UtilityCost-Checker",
-    subtitle: "Smart Utility Bill Analysis for Germany",
+    subtitle: "Transparent German Utility Analysis with Real APIs",
     languageSwitch: "Deutsch",
     
     // Hero Section
@@ -308,8 +308,8 @@ export const translations: Record<Language, Translations> = {
     featuresTitle: "Why UtilityCost-Checker?",
     feature1Title: "Easy Input",
     feature1Description: "Quick manual entry with optional AI scan assistance for maximum accuracy",
-    feature2Title: "Current 2025 Data",
-    feature2Description: "Compare with live data from all German cities and regions using official APIs",
+    feature2Title: "Official Statistics + Live APIs",
+    feature2Description: "Real electricity prices (Awattar) + official Betriebskostenspiegel data",
     feature3Title: "GDPR Compliant",
     feature3Description: "Your data stays private and is not stored - perfect for international residents",
     

@@ -1,6 +1,7 @@
 // Nebenkostenabrechnung Analysis Engine
 import { GermanCity, lookupPLZ } from './german-cities';
 import { energyService, RegionalEnergyData } from './energy-apis';
+import { realOfficialService, OfficialUtilityCosts } from './real-official-data';
 import { getTranslations, Language } from './i18n';
 import { OCRPreprocessor } from './ocr-preprocessor';
 
@@ -63,14 +64,45 @@ export interface ComparisonResult {
 
 export class NebenkostenAnalyzer {
   async analyzeBill(billData: BillData, language: Language = 'de'): Promise<AnalysisResult> {
-    // Get city and energy data
-    const [cityInfo, energyData] = await Promise.all([
-      lookupPLZ(billData.plz),
-      energyService.getRegionalEnergyData(billData.plz)
-    ]);
+    // Try to get REAL official data first, fall back to estimated data
+    let cityInfo: GermanCity;
+    let energyData: RegionalEnergyData;
+    let realData: OfficialUtilityCosts | null = null;
+    
+    try {
+      // Attempt to get REAL official data
+      realData = await realOfficialService.getOfficialUtilityData(billData.plz);
+      
+      // Convert real data to expected format
+      cityInfo = {
+        plz: realData.plz,
+        city: realData.city,
+        state: realData.state,
+        region: `${realData.city}-${realData.state}`,
+        utilityProvider: 'Official Data Source',
+        population: 0,
+        avgCosts: realData.costs,
+        dataSource: realData.sources.utilityCosts,
+        lastUpdated: new Date().toISOString().split('T')[0]
+      };
+      
+      // Get energy data
+      energyData = await energyService.getRegionalEnergyData(billData.plz);
+    } catch (error) {
+      console.log('Real data unavailable, using fallback:', error);
+      
+      // Fall back to original system
+      const [fallbackCityInfo, fallbackEnergyData] = await Promise.all([
+        lookupPLZ(billData.plz),
+        energyService.getRegionalEnergyData(billData.plz)
+      ]);
 
-    if (!cityInfo) {
-      throw new Error(`Unbekannte Postleitzahl: ${billData.plz}`);
+      if (!fallbackCityInfo) {
+        throw new Error(`Unbekannte Postleitzahl: ${billData.plz}`);
+      }
+      
+      cityInfo = fallbackCityInfo;
+      energyData = fallbackEnergyData;
     }
 
     // Calculate per m² monthly costs (input is already monthly)

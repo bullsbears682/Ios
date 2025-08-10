@@ -33,13 +33,20 @@ export default function Home() {
       <header className="bg-white shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Calculator className="h-8 w-8 text-blue-600" />
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">{t.title}</h1>
-              </div>
-            </div>
-            <LanguageSwitcher />
+                              <div className="flex items-center space-x-3">
+                    <Calculator className="h-8 w-8 text-blue-600" />
+                    <div>
+                      <h1 className="text-2xl font-bold text-gray-900">{t.title}</h1>
+                      <p className="text-sm text-gray-600">
+                        {language === 'de' ? 'Mit echten APIs & offiziellen Daten' : 'With real APIs & official data'}
+                        {' '}
+                        <a href="/real-data" className="text-blue-600 hover:underline">
+                          {language === 'de' ? '(Transparenz)' : '(Transparency)'}
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                  <LanguageSwitcher />
           </div>
         </div>
       </header>
