@@ -1,0 +1,26 @@
+# Node / Vite
+web/node_modules/
+web/dist/
+web/.vite/
+web/.cache/
+web/.DS_Store
+
+# Logs
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+**/pnpm-debug.log*
+
+# Android
+**/build/
+**/.gradle/
+**/.idea/
+**/local.properties
+**/.cxx/
+**/captures/
+**/*.iml
+
+# Misc
+.DS_Store
+.env
+.env.*
