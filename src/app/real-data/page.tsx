@@ -19,7 +19,8 @@ export default function RealDataPage() {
   const [apiTests, setApiTests] = useState<APITest[]>([
     { name: 'Zippopotam.us', status: 'testing', description: 'Location & postal code lookup', isReal: true },
     { name: 'Awattar Energy Exchange', status: 'testing', description: 'Real-time German electricity prices', isReal: true },
-    { name: 'Energy Charts', status: 'testing', description: 'Alternative energy data source', isReal: true },
+    { name: 'Energy Charts (Fraunhofer)', status: 'testing', description: 'Alternative electricity prices', isReal: true },
+    { name: 'Multi-Source Electricity', status: 'testing', description: 'Combined electricity price from multiple APIs', isReal: true },
     { name: 'Official Statistics', status: 'testing', description: 'German federal & state statistics', isReal: true },
     { name: 'Electricity Maps', status: 'testing', description: 'CO₂ intensity data (needs API key)', isReal: false }
   ]);
